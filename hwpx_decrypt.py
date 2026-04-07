@@ -196,13 +196,49 @@ def decrypt_hwpx(input_path, output_path=None):
         return True
 
 
+def check_hwpx(input_path):
+    """Check if a HWPX file is distribution-encrypted."""
+    try:
+        with zipfile.ZipFile(input_path, "r") as zin:
+            try:
+                manifest = zin.read("META-INF/manifest.xml")
+            except KeyError:
+                print(f"{input_path}: not encrypted (no manifest)", file=sys.stderr)
+                return False
+            entries = parse_manifest(manifest)
+            if entries:
+                print(f"{input_path}: encrypted ({len(entries)} entries)",
+                      file=sys.stderr)
+                return True
+            else:
+                print(f"{input_path}: not encrypted", file=sys.stderr)
+                return False
+    except zipfile.BadZipFile:
+        print(f"{input_path}: not a ZIP file", file=sys.stderr)
+        return False
+
+
 def main():
     p = argparse.ArgumentParser(
         description="Decrypt HWPX distribution (read-only) documents")
-    p.add_argument("input", help="Encrypted HWPX file")
+    p.add_argument("input", nargs="+", help="HWPX file(s)")
     p.add_argument("-o", "--output", help="Output decrypted HWPX file")
+    p.add_argument("-c", "--check", action="store_true",
+                   help="Check if files are encrypted (no decryption)")
     args = p.parse_args()
-    ok = decrypt_hwpx(args.input, args.output)
+
+    if args.check:
+        any_encrypted = False
+        for f in args.input:
+            if check_hwpx(f):
+                any_encrypted = True
+        sys.exit(0 if any_encrypted else 1)
+
+    if len(args.input) != 1:
+        print("Decryption requires exactly one input file", file=sys.stderr)
+        sys.exit(2)
+
+    ok = decrypt_hwpx(args.input[0], args.output)
     sys.exit(0 if ok else 1)
 
 

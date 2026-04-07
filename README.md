@@ -14,11 +14,17 @@ HWPX 배포용 문서 복호화.
 ## 사용법
 
 ```bash
+# 암호화 여부 확인
+uv run --with cryptography python hwpx_decrypt.py --check *.hwpx
+
+# 복호화
 uv run --with cryptography python hwpx_decrypt.py 배포용.hwpx -o 복호화.hwpx
 ```
 
+또는:
 ```bash
 pip install -r requirements.txt
+python hwpx_decrypt.py --check *.hwpx
 python hwpx_decrypt.py 배포용.hwpx -o 복호화.hwpx
 ```
 

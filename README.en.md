@@ -17,11 +17,17 @@ Source: [hancom-io/hwpx-owpml-model](https://github.com/hancom-io/hwpx-owpml-mod
 ## Usage
 
 ```bash
+# Check if files are encrypted
+uv run --with cryptography python hwpx_decrypt.py --check *.hwpx
+
+# Decrypt
 uv run --with cryptography python hwpx_decrypt.py encrypted.hwpx -o decrypted.hwpx
 ```
 
+Or:
 ```bash
 pip install -r requirements.txt
+python hwpx_decrypt.py --check *.hwpx
 python hwpx_decrypt.py encrypted.hwpx -o decrypted.hwpx
 ```
 
