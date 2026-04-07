@@ -44,10 +44,23 @@ ODF 1.2 암호화와 같은 구조지만 차이점:
 
 ## 테스트
 
-[H2Orestart #42](https://github.com/ebandal/H2Orestart/issues/42) 테스트 파일(암호 `1qa2ws3ed`):
+`samples/` 에 테스트 파일 포함:
+
+- `encrypted.hwpx` -- [H2Orestart #42](https://github.com/ebandal/H2Orestart/issues/42) 테스트 파일 (배포용 암호 `1qa2ws3ed`)
+- `korea-encrypted.zip` -- korea.kr 배포용 보도자료 8건 ([공공누리 제1유형](https://en.wikipedia.org/wiki/Korea_Open_Government_License), 출처: 대한민국 정책브리핑)
+
+korea.kr 원본:
+- https://www.korea.kr/briefing/pressReleaseView.do?newsId=156747079
+- https://www.korea.kr/briefing/pressReleaseView.do?newsId=156747394
+- https://www.korea.kr/briefing/pressReleaseView.do?newsId=156747531
+- https://www.korea.kr/briefing/pressReleaseView.do?newsId=156742677
+- https://www.korea.kr/briefing/pressReleaseView.do?newsId=156745446
+- https://www.korea.kr/briefing/pressReleaseView.do?newsId=156745223
+- https://www.korea.kr/briefing/pressReleaseView.do?newsId=156742557
+- https://www.korea.kr/briefing/pressReleaseView.do?newsId=156742140
 
 ```
-$ uv run --with cryptography python hwpx_decrypt.py 배포용.hwpx -o decrypted.hwpx
+$ uv run --with cryptography python hwpx_decrypt.py samples/encrypted.hwpx -o decrypted.hwpx
 $ libreoffice --headless --convert-to pdf decrypted.hwpx  # 정상 열림
 ```
 
